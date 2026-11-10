@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>STS-31 Hubble Space Telescope — Launch to LEO Simulation</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="simulation-viewport">
+    <!-- Full-bleed HTML5 Canvas for Atmosphere, Launch Tower, Shuttle Stack & Hubble LEO Deployment -->
+    <canvas id="simulation-canvas" class="simulation-canvas" aria-label="STS-31 Space Shuttle Discovery and Hubble Space Telescope Launch Simulation"></canvas>
+
+    <!-- Horizontal Dashed Altitude Marker Lines (Figma 463:863) -->
+    <div class="altitude-grid" aria-hidden="true">
+      <div class="grid-line"></div>
+      <div class="grid-line"></div>
+      <div class="grid-line"></div>
+    </div>
+
+    <!-- Top Telemetry HUD matching Figma node 463:863 -->
+    <header class="telemetry-hud" aria-label="STS-31 Mission Telemetry">
+      <!-- Left Cluster: Thrust, Velocity, Pressure -->
+      <div class="gauge-cluster gauge-cluster-left">
+        <div class="gauge-item">
+          <span class="gauge-title">Thrust</span>
+          <div class="gauge-circle">
+            <span class="gauge-value" id="val-thrust">--</span>
+          </div>
+          <span class="gauge-unit">N</span>
+        </div>
+
+        <div class="gauge-item">
+          <span class="gauge-title">Velocity</span>
+          <div class="gauge-circle">
+            <span class="gauge-value" id="val-velocity">--</span>
+          </div>
+          <span class="gauge-unit">km/s</span>
+        </div>
+
+        <div class="gauge-item">
+          <span class="gauge-title">Pressure</span>
+          <div class="gauge-circle">
+            <span class="gauge-value" id="val-pressure">--</span>
+          </div>
+          <span class="gauge-unit">kPa</span>
+        </div>
+      </div>
+
+      <!-- Center Mission Clock & Stage Metadata -->
+      <div class="mission-clock-panel">
+        <div class="mission-clock" id="val-clock">00 : 00 : 00</div>
+        <div class="clock-divider" aria-hidden="true"></div>
+        <div class="mission-meta-row">
+          <div class="meta-col">
+            <span class="meta-label">Start</span>
+            <span class="meta-value" id="val-start">---</span>
+          </div>
+          <div class="meta-col">
+            <span class="meta-label">Next Stage</span>
+            <span class="meta-value" id="val-next-stage">---</span>
+          </div>
+          <div class="meta-col">
+            <span class="meta-label">Duration</span>
+            <span class="meta-value" id="val-duration">---</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Cluster: Altitude, Downrange, Temperature -->
+      <div class="gauge-cluster gauge-cluster-right">
+        <div class="gauge-item">
+          <span class="gauge-title">Altitude</span>
+          <div class="gauge-circle">
+            <span class="gauge-value" id="val-altitude">--</span>
+          </div>
+          <span class="gauge-unit">km</span>
+        </div>
+
+        <div class="gauge-item">
+          <span class="gauge-title">Downrange</span>
+          <div class="gauge-circle">
+            <span class="gauge-value" id="val-downrange">--</span>
+          </div>
+          <span class="gauge-unit">km</span>
+        </div>
+
+        <div class="gauge-item">
+          <span class="gauge-title">Temperature</span>
+          <div class="gauge-circle">
+            <span class="gauge-value" id="val-temperature">--</span>
+          </div>
+          <span class="gauge-unit">C</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Bottom-Right Fuel Ring Gauge (Figma 466:1166) -->
+    <aside class="fuel-widget" aria-label="External Tank Fuel Remaining">
+      <span class="fuel-title">Fuel</span>
+      <div class="fuel-ring-container">
+        <svg class="fuel-ring-svg" viewBox="0 0 200 200" aria-hidden="true">
+          <circle
+            class="fuel-ring-track"
+            cx="100"
+            cy="100"
+            r="84"
+            stroke-dasharray="475 528"
+          />
+          <circle
+            class="fuel-ring-progress"
+            id="fuel-ring-arc"
+            cx="100"
+            cy="100"
+            r="84"
+            stroke-dasharray="475 528"
+          />
+        </svg>
+        <span class="fuel-value" id="val-fuel">-- %</span>
+      </div>
+    </aside>
+
+    <!-- Launchpad & Ground Terrain (Zooms out smoothly on Liftoff) -->
+    <div class="launchpad" aria-hidden="true"></div>
+    <div class="ground-container" aria-hidden="true">
+      <div class="ground-pill"></div>
+    </div>
+  </main>
+
+  <script src="RocketSimulationEngine.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
